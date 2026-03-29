@@ -7,7 +7,7 @@ namespace HealthCareSystem
         static void Main(string[] args)
         {
             // System Storage
-            
+
             string[] patientNames = new string[100];
             string[] patientIDs = new string[100];
             string[] diagnoses = new string[100];
@@ -23,13 +23,13 @@ namespace HealthCareSystem
             //Patient 1:
 
             patientNames[lastPatientIndex] = "Ali Hassan";
-            patientIDs[lastPatientIndex]= "P001";
+            patientIDs[lastPatientIndex] = "P001";
             diagnoses[lastPatientIndex] = "Flu";
-            departments[lastPatientIndex]= "General";
-            admitted[lastPatientIndex]= false;
-            assignedDoctors[lastPatientIndex]= "";
-            visitCount[lastPatientIndex]= 2;
-            billingAmount[lastPatientIndex]= 0;
+            departments[lastPatientIndex] = "General";
+            admitted[lastPatientIndex] = false;
+            assignedDoctors[lastPatientIndex] = "";
+            visitCount[lastPatientIndex] = 2;
+            billingAmount[lastPatientIndex] = 0;
 
             lastPatientIndex++;
 
@@ -60,8 +60,79 @@ namespace HealthCareSystem
 
             lastPatientIndex++;
 
+            bool exit = false;
+
+            while (exit == false)
+            {
+                Console.WriteLine("Welcome to healthcare system ");
+                Console.WriteLine("1.Register New Patient");
+
+
+                int choice = int.Parse(Console.ReadLine());
+
+                switch (choice)
+                {
+
+                    case 1: //Register New Patient
+
+                        lastPatientIndex++;
+                        Console.Write("patient Name:");
+                        patientNames[lastPatientIndex] = Console.ReadLine();
+                        Console.Write("patient ID:");
+                        patientIDs[lastPatientIndex] = Console.ReadLine();
+                        Console.Write("diagnosis:");
+                        diagnoses[lastPatientIndex] = Console.ReadLine();
+                        Console.Write("department:");
+                        departments[lastPatientIndex] = Console.ReadLine();
+                        admitted[lastPatientIndex] = false;
+                        assignedDoctors[lastPatientIndex] = "";
+                        visitCount[lastPatientIndex] = 0;
+                        billingAmount[lastPatientIndex] = 0;
+                        Console.WriteLine("Patient registered successfully!");
+
+                        break;
+
+                    case 2:
+                        break;
+
+
+                    case 3:
+                        break;
+
+                    case 4:
+                        break;
+
+                    case 5:
+                        break;
+
+                    case 6:
+                        break;
+
+                    case 7:
+                        break;
+
+                    case 8:
+                        break;
+
+                    case 9:
+                        break;
+
+                    case 10:
+                        break;
+
+
+
+
+
+
+
+
+
+                }
+            }
 
 
         }
     }
 }
+
