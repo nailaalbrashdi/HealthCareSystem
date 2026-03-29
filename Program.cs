@@ -66,8 +66,8 @@ namespace HealthCareSystem
             {
                 Console.WriteLine("Welcome to healthcare system ");
                 Console.WriteLine("1.Register New Patient");
-                Console.WriteLine("2.Admit Patient");
-
+                Console.WriteLine("2.Admit Patient"); 
+                Console.WriteLine("3.Discharge Patient");
 
                 int choice = int.Parse(Console.ReadLine());
 
@@ -129,7 +129,78 @@ namespace HealthCareSystem
 
                         break;
 
-                    case 3:
+                    case 3: // Discharge Patient
+
+                        Console.Write("Enter patient ID or name: ");
+                        string Input = Console.ReadLine();
+                        int FoundIndex = -1;
+
+
+                        for (int i = 0; i <= lastPatientIndex; i++)
+                        {
+                            if (patientNames[i] == Input || patientIDs[i] == Input)
+                            {
+                                FoundIndex = i;
+                                break;
+                            }
+                        }
+
+
+                        if (FoundIndex == -1)
+                        {
+                            Console.WriteLine("Patient not found");
+                            break;
+
+                        }
+
+
+                        if (admitted[FoundIndex] == true)
+                        {
+                            Console.WriteLine("Patient is admitted under " + assignedDoctors[FoundIndex]);
+                            Console.Write("Was there a consultation fee? (yes/no): ");
+                            string consultAnswer = Console.ReadLine();
+                            if (consultAnswer == "yes")
+                            {
+                                Console.Write("Enter consultation fee amount: ");
+                                int consultFee = int.Parse(Console.ReadLine());
+
+                                billingAmount[FoundIndex] += consultFee;
+                            }
+                            else
+                            {
+                                Console.WriteLine("there is no consultation fee");
+                                break;
+                                
+                            }
+
+                            Console.Write("Any medication charges? (yes/no): ");
+                            string medAnswer = Console.ReadLine();
+
+                            if (medAnswer == "yes")
+                            {
+                                Console.Write("Enter medication amount: ");
+                                int medFee = int.Parse(Console.ReadLine());
+
+                                billingAmount[FoundIndex] += medFee;
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("there is no medication charges");
+                            }
+                        }
+
+                        if (billingAmount[FoundIndex] > 0)
+                        {
+                            Console.WriteLine("Total charges added this visit: " + billingAmount[FoundIndex]);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No charges recorded for this visit");
+                        }
+
+        
+
                         break;
 
                     case 4:
