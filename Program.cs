@@ -66,6 +66,7 @@ namespace HealthCareSystem
             {
                 Console.WriteLine("Welcome to healthcare system ");
                 Console.WriteLine("1.Register New Patient");
+                Console.WriteLine("2.Admit Patient");
 
 
                 int choice = int.Parse(Console.ReadLine());
@@ -92,9 +93,41 @@ namespace HealthCareSystem
 
                         break;
 
-                    case 2:
-                        break;
+                    case 2: // Admit Patient
 
+                        Console.Write("Enter patient ID or name: ");
+                        string admitInput = Console.ReadLine();
+
+                        int foundIndex = -1;
+
+                        
+                        for (int i = 0; i <= lastPatientIndex; i++)
+                        {
+                            if (patientNames[i] == admitInput || patientIDs[i] == admitInput)
+                            {
+                                foundIndex = i;
+                                break;
+                            }
+                        }
+
+                        
+                        if (foundIndex == -1)
+                        {
+                            Console.WriteLine("Patient not found");
+                            break ;
+                            
+                        }
+
+               
+                        if (admitted[foundIndex] == true)
+                        {
+                            Console.WriteLine("Patient is admitted under " + assignedDoctors[foundIndex]);
+                            visitCount[foundIndex]++;
+                            billingAmount[foundIndex] = 0;
+                            break;
+                        }
+
+                        break;
 
                     case 3:
                         break;
