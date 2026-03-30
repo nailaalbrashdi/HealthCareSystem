@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace HealthCareSystem
 {
@@ -68,7 +69,8 @@ namespace HealthCareSystem
                 Console.WriteLine("1.Register New Patient");
                 Console.WriteLine("2.Admit Patient"); 
                 Console.WriteLine("3.Discharge Patient"); 
-                Console.WriteLine("4.Search Patient");
+                Console.WriteLine("4.Search Patient"); 
+                Console.WriteLine("5.List All Admitted Patients");
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -246,7 +248,22 @@ namespace HealthCareSystem
                         break;
                         
 
-                    case 5:
+                    case 5: // List All Admitted Patients
+                        Console.WriteLine("admitted patients:");
+                        bool hasAdmitted = false;
+                        for (int i = 0; i <= lastPatientIndex; i++)
+                        {
+                            if (admitted[i] == true)
+                            {
+                                Console.WriteLine("patient name : " + patientNames[i] + " | patient ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i]+ "|Assigned Doctor:"+assignedDoctors);
+                                hasAdmitted = true;
+                            }
+                        }
+                        if (hasAdmitted == false)
+                        {
+                            Console.WriteLine("No patients currently admitted");
+                        }
+
                         break;
 
                     case 6:
