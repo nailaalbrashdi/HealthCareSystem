@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Numerics;
 using System.Xml.Linq;
 
@@ -72,7 +73,8 @@ namespace HealthCareSystem
                 Console.WriteLine("3.Discharge Patient"); 
                 Console.WriteLine("4.Search Patient"); 
                 Console.WriteLine("5.List All Admitted Patients"); 
-                Console.WriteLine("6.Transfer Patient to Another Doctor");
+                Console.WriteLine("6.Transfer Patient to Another Doctor"); 
+                Console.WriteLine("7.View Most Visited Patients");
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -287,18 +289,31 @@ namespace HealthCareSystem
                         }
                         if (currentDoctorFound == false)
                         {
-                            Console.WriteLine("Current doctor name is not found");
+                            Console.WriteLine("No admitted patient found under this doctor");
                         }
                         else
                         {
                             assignedDoctors[currentDoctorIndex] = newDoctor;
                             Console.WriteLine("patient transferred successfully!");
-                            Console.WriteLine("patient:" + patientNames[currentDoctorIndex] + " is now assigned by " + newDoctor);
+                            Console.WriteLine("patient:" + patientNames[currentDoctorIndex] + " has been transferred to " + newDoctor);
                         }
 
                         break;
 
-                    case 7:
+                    case 7: // View Most Visited Patients
+                        Console.WriteLine("Most Visited Patients:");
+                        for (int count = 100; count >= 0; count--) // Start from highest possible count
+                        {
+                            for (int i = 0; i <= lastPatientIndex; i++)
+                            {
+                                if (visitCount[i] == count)
+                                {
+                                    Console.WriteLine("patient ID : " + patientIDs[i] + " | patient Name: " + patientNames[i] + " | Department: " + departments[i] + " | Diagnosis: " + diagnoses[i] + " | Visit Count: " + visitCount[i]);
+                                }
+                            }
+                        }
+
+
                         break;
 
                     case 8:
