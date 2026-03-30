@@ -61,7 +61,6 @@ namespace HealthCareSystem
             visitCount[lastPatientIndex] = 1;
             billingAmount[lastPatientIndex] = 0;
 
-            lastPatientIndex++;
 
             bool exit = false;
 
@@ -75,7 +74,9 @@ namespace HealthCareSystem
                 Console.WriteLine("5.List All Admitted Patients");
                 Console.WriteLine("6.Transfer Patient to Another Doctor");
                 Console.WriteLine("7.View Most Visited Patients");
-                Console.WriteLine("8.Search Patients by Department");
+                Console.WriteLine("8.Search Patients by Department"); 
+                Console.WriteLine("9.Billing Report");
+                Console.WriteLine("10.exit");
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -84,6 +85,7 @@ namespace HealthCareSystem
                     case 1: //Register New Patient
 
                         lastPatientIndex++;
+
                         Console.Write("patient Name:");
                         patientNames[lastPatientIndex] = Console.ReadLine();
                         Console.Write("patient ID:");
@@ -102,38 +104,45 @@ namespace HealthCareSystem
 
                     case 2: // Admit Patient
 
+                        //Admit Patient
                         Console.Write("Enter patient ID or name: ");
                         string admitInput = Console.ReadLine();
 
-                        int foundIndex = -1;
+                        Console.Write("Enter doctor name: ");
+                        string doctorInput = Console.ReadLine();
 
-
+                        bool admitFound = false;
                         for (int i = 0; i <= lastPatientIndex; i++)
                         {
+                            //check if patient is found or not
                             if (patientNames[i] == admitInput || patientIDs[i] == admitInput)
                             {
-                                foundIndex = i;
+
+                                if (admitted[i] == false)
+                                {
+                                    assignedDoctors[i] = doctorInput;
+                                    admitted[i] = true;
+                                    visitCount[i]++; //  Increment visit count
+                                    billingAmount[i] = 0;
+
+                                    Console.WriteLine("Patient admitted successfully and  assigned to doctor" + assignedDoctors[i]);
+                                    Console.WriteLine(" This patient has been admitted    " + visitCount[i] + " times");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Patient is already admitted under" + assignedDoctors[i]);
+                                }
                                 break;
+
+
                             }
+
                         }
-
-
-                        if (foundIndex == -1)
+                        if (admitFound == false)
                         {
                             Console.WriteLine("Patient not found");
-                            break;
 
                         }
-
-
-                        if (admitted[foundIndex] == true)
-                        {
-                            Console.WriteLine("Patient is admitted under " + assignedDoctors[foundIndex]);
-                            visitCount[foundIndex]++;
-                            billingAmount[foundIndex] = 0;
-                            break;
-                        }
-
                         break;
 
                     case 3: // Discharge Patient
@@ -260,7 +269,7 @@ namespace HealthCareSystem
                         {
                             if (admitted[i] == true)
                             {
-                                Console.WriteLine("patient name : " + patientNames[i] + " | patient ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i] + "|Assigned Doctor:" + assignedDoctors);
+                                Console.WriteLine("patient name : " + patientNames[i] + " | patient ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i] + "|Assigned Doctor:" + assignedDoctors[i]);
                                 hasAdmitted = true;
                             }
                         }
@@ -387,7 +396,8 @@ namespace HealthCareSystem
                                 }
 
                                 break;
-
+                        }
+                            break;
 
                             case 10:
 
@@ -406,7 +416,6 @@ namespace HealthCareSystem
                         Console.WriteLine("Press any key to continue...");
                         Console.ReadKey();
                         Console.Clear();
-                        break;
                 }
 
 
@@ -415,5 +424,3 @@ namespace HealthCareSystem
             }
         }
     }
-}
-
