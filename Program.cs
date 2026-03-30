@@ -67,8 +67,8 @@ namespace HealthCareSystem
                 Console.WriteLine("Welcome to healthcare system ");
                 Console.WriteLine("1.Register New Patient");
                 Console.WriteLine("2.Admit Patient"); 
-                Console.WriteLine("3.Discharge Patient");
-
+                Console.WriteLine("3.Discharge Patient"); 
+                Console.WriteLine("4.Search Patient");
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -203,8 +203,48 @@ namespace HealthCareSystem
 
                         break;
 
-                    case 4:
+                    case 4: //Search Patient
+                        Console.Write("Enter patient ID or name: ");
+                        string input = Console.ReadLine();
+
+                        int FOUNDIndex = -1;
+                        for (int i = 0; i <= lastPatientIndex; i++)
+                        {
+                            if (patientNames[i] == input || patientIDs[i] == input)
+                            {
+                                FOUNDIndex = i;
+                                break;
+                            }
+                        }
+
+                        if (FOUNDIndex == -1)
+                        {
+                            Console.WriteLine("Patient not found");
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Patient Details:");
+                            Console.WriteLine("Name: " + patientNames[FOUNDIndex]);
+                            Console.WriteLine("ID: " + patientIDs[FOUNDIndex]);
+                            Console.WriteLine("Diagnosis: " + diagnoses[FOUNDIndex]);
+                            Console.WriteLine("Department: " + departments[FOUNDIndex]);
+                        }
+                        if (admitted[FOUNDIndex] == true)
+                        {
+                            Console.WriteLine("Status: Admitted");
+                            Console.WriteLine("Assigned Doctor: " + assignedDoctors[FOUNDIndex]);
+                        }
+                        else
+                        {
+                            Console.WriteLine("Status: Not Admitted");
+                        }
+
+                        Console.WriteLine("Visit Count: " + visitCount[FOUNDIndex]);
+                        Console.WriteLine("Total Billing Amount: " + billingAmount[FOUNDIndex]);
+
                         break;
+                        
 
                     case 5:
                         break;
