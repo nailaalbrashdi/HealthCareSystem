@@ -69,12 +69,13 @@ namespace HealthCareSystem
             {
                 Console.WriteLine("Welcome to healthcare system ");
                 Console.WriteLine("1.Register New Patient");
-                Console.WriteLine("2.Admit Patient"); 
-                Console.WriteLine("3.Discharge Patient"); 
-                Console.WriteLine("4.Search Patient"); 
-                Console.WriteLine("5.List All Admitted Patients"); 
-                Console.WriteLine("6.Transfer Patient to Another Doctor"); 
+                Console.WriteLine("2.Admit Patient");
+                Console.WriteLine("3.Discharge Patient");
+                Console.WriteLine("4.Search Patient");
+                Console.WriteLine("5.List All Admitted Patients");
+                Console.WriteLine("6.Transfer Patient to Another Doctor");
                 Console.WriteLine("7.View Most Visited Patients");
+                Console.WriteLine("8.Search Patients by Department");
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -106,7 +107,7 @@ namespace HealthCareSystem
 
                         int foundIndex = -1;
 
-                        
+
                         for (int i = 0; i <= lastPatientIndex; i++)
                         {
                             if (patientNames[i] == admitInput || patientIDs[i] == admitInput)
@@ -116,15 +117,15 @@ namespace HealthCareSystem
                             }
                         }
 
-                        
+
                         if (foundIndex == -1)
                         {
                             Console.WriteLine("Patient not found");
-                            break ;
-                            
+                            break;
+
                         }
 
-               
+
                         if (admitted[foundIndex] == true)
                         {
                             Console.WriteLine("Patient is admitted under " + assignedDoctors[foundIndex]);
@@ -176,7 +177,7 @@ namespace HealthCareSystem
                             {
                                 Console.WriteLine("there is no consultation fee");
                                 break;
-                                
+
                             }
 
                             Console.Write("Any medication charges? (yes/no): ");
@@ -205,7 +206,7 @@ namespace HealthCareSystem
                             Console.WriteLine("No charges recorded for this visit");
                         }
 
-        
+
 
                         break;
 
@@ -250,7 +251,7 @@ namespace HealthCareSystem
                         Console.WriteLine("Total Billing Amount: " + billingAmount[FOUNDIndex]);
 
                         break;
-                        
+
 
                     case 5: // List All Admitted Patients
                         Console.WriteLine("admitted patients:");
@@ -259,7 +260,7 @@ namespace HealthCareSystem
                         {
                             if (admitted[i] == true)
                             {
-                                Console.WriteLine("patient name : " + patientNames[i] + " | patient ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i]+ "|Assigned Doctor:"+assignedDoctors);
+                                Console.WriteLine("patient name : " + patientNames[i] + " | patient ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i] + "|Assigned Doctor:" + assignedDoctors);
                                 hasAdmitted = true;
                             }
                         }
@@ -316,27 +317,102 @@ namespace HealthCareSystem
 
                         break;
 
-                    case 8:
+                    case 8: //Search Patients by Department
+                        Console.WriteLine("enter a department name:");
+                        string deptName = Console.ReadLine();
+                        bool deptFound = false;
+
+                        Console.WriteLine("patient in department:" + deptName);
+                        for (int i = 0; i <= lastPatientIndex; i++)
+                        {
+                            if (departments[i].ToLower() == deptName.ToLower())
+                            {
+                                deptFound = true;
+                                string admittedStatus = admitted[i] ? "Admitted" : "Not Admitted";
+                                Console.WriteLine("patient ID : " + patientIDs[i] + " | patient Name: " + patientNames[i] + " | Diagnosis: " + diagnoses[i] + " | Admission Status: " + admitted[i]);
+
+                            }
+                        }
+                        if (deptFound == false)
+                        {
+                            Console.WriteLine("No patient found in this department");
+                        }
+
+
                         break;
 
-                    case 9:
+                    case 9: // Billing Report
+                        Console.WriteLine("Billing Menu");
+                        Console.WriteLine("1. System-wide total");
+                        Console.WriteLine("2. Individual patient");
+                        Console.Write("Enter your choice: ");
+                        int billChoice = int.Parse(Console.ReadLine());
+                        switch (billChoice)
+                        {
+                            case 1:
+                                double total = 0;
+
+                                for (int i = 0; i <= lastPatientIndex; i++)
+                                {
+                                    total += billingAmount[i];
+                                }
+
+                                Console.WriteLine("Total system billing: " + total);
+                                break;
+
+                            case 2:
+                                Console.Write("Enter patient ID or name: ");
+                                string INPUT = Console.ReadLine();
+
+                                int FOUNDINDEX = -1;
+
+
+                                for (int i = 0; i <= lastPatientIndex; i++)
+                                {
+                                    if (patientNames[i] == INPUT || patientIDs[i] == INPUT)
+                                    {
+                                        FOUNDINDEX = i;
+                                        break;
+                                    }
+                                }
+
+
+                                if (FOUNDINDEX == -1 || billingAmount[FOUNDINDEX] == 0)
+                                {
+                                    Console.WriteLine("No billing records found for this patient");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Total billing amount: " + billingAmount[FOUNDINDEX]);
+                                }
+
+                                break;
+
+
+                            case 10:
+
+                                Console.WriteLine("Exiting program...");
+                                Console.WriteLine("Thank you for using HealthCare Management System!");
+                                exit = true;
+                                
+                                break;
+
+                            default:
+                                Console.WriteLine("Invalid option. Please try again.");
+                                break;
+
+                        }
+
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
                         break;
-
-                    case 10:
-                        break;
-
-
-
-
-
-
-
-
-
                 }
+
+
+
+
             }
-
-
         }
     }
 }
