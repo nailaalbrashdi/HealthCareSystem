@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 using System.Xml.Linq;
 
 namespace HealthCareSystem
@@ -70,7 +71,8 @@ namespace HealthCareSystem
                 Console.WriteLine("2.Admit Patient"); 
                 Console.WriteLine("3.Discharge Patient"); 
                 Console.WriteLine("4.Search Patient"); 
-                Console.WriteLine("5.List All Admitted Patients");
+                Console.WriteLine("5.List All Admitted Patients"); 
+                Console.WriteLine("6.Transfer Patient to Another Doctor");
                 int choice = int.Parse(Console.ReadLine());
 
                 switch (choice)
@@ -266,7 +268,34 @@ namespace HealthCareSystem
 
                         break;
 
-                    case 6:
+                    case 6: // Transfer Patient to Another Doctor
+                        Console.WriteLine("enter current doctor name:");
+                        string currentDoctor = Console.ReadLine();
+                        Console.WriteLine("Enter new doctor name: ");
+                        string newDoctor = Console.ReadLine();
+                        bool currentDoctorFound = false;
+                        int currentDoctorIndex = 0;
+
+                        for (int i = 0; i <= lastPatientIndex; i++)
+                        {
+                            if (currentDoctor == assignedDoctors[i])
+                            {
+                                currentDoctorIndex = i;
+                                currentDoctorFound = true;
+                                break;
+                            }
+                        }
+                        if (currentDoctorFound == false)
+                        {
+                            Console.WriteLine("Current doctor name is not found");
+                        }
+                        else
+                        {
+                            assignedDoctors[currentDoctorIndex] = newDoctor;
+                            Console.WriteLine("patient transferred successfully!");
+                            Console.WriteLine("patient:" + patientNames[currentDoctorIndex] + " is now assigned by " + newDoctor);
+                        }
+
                         break;
 
                     case 7:
