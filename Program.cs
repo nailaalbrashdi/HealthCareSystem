@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Numerics;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HealthCareSystem
 {
@@ -225,9 +227,25 @@ namespace HealthCareSystem
                                     if (hasMeds == "yes")
                                     {
                                         Console.Write("Enter medication charges amount: ");
-                                        double meds = double.Parse(Console.ReadLine());
-                                        billingAmount[i] += meds;
-                                        visitCharges += meds;
+                                        double meds = 0;
+                                        try
+                                        {
+                                            meds = double.Parse(Console.ReadLine());
+                                            if (meds > 0)
+                                            {
+                                                billingAmount[i] += meds;
+                                                visitCharges += meds;
+                                            }
+                                            else 
+                                            {
+                                               Console.WriteLine("medication charges must be positive");
+                                            }
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            Console.WriteLine("Invalid amount.Please enter a valid number.");
+                                        }
+
                                     }
 
                                     if (visitCharges > 0)
