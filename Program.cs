@@ -68,6 +68,9 @@ namespace HealthCareSystem
             assignedDoctors[lastIndex] = "";
             visitCount[lastIndex] = 1;
             billingAmount[lastIndex] = 0;
+
+            lastIndex++;
+            
             ////////////////////////////////////////////////////////////////////
 
 
@@ -111,7 +114,7 @@ namespace HealthCareSystem
 
 
                     case 1: // Register New Patient
-                        lastIndex++;
+                        
 
                         Console.Write("Patient Name: ");
                         patientNames[lastIndex] = Console.ReadLine();
@@ -126,13 +129,14 @@ namespace HealthCareSystem
                         departments[lastIndex] = Console.ReadLine();
 
 
-                        patientIDs[lastIndex] = "P00" + lastIndex;
+                        patientIDs[lastIndex] = "P" + lastIndex.ToString("D3");
                         admitted[lastIndex] = false;
                         assignedDoctors[lastIndex] = "";
                         visitCount[lastIndex] = 0;
                         billingAmount[lastIndex] = 0;
 
                         Console.WriteLine("Patient registered successfully with ID :" + patientIDs[lastIndex]);
+                        lastIndex++;
                         break;
 
                     case 2: // Admit Patient
