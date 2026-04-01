@@ -236,9 +236,9 @@ namespace HealthCareSystem
                                                 billingAmount[i] += meds;
                                                 visitCharges += meds;
                                             }
-                                            else 
+                                            else
                                             {
-                                               Console.WriteLine("medication charges must be positive");
+                                                Console.WriteLine("medication charges must be positive");
                                             }
                                         }
                                         catch (Exception e)
@@ -440,68 +440,82 @@ namespace HealthCareSystem
                         break;
 
                     case 9: // Billing Report
-                        Console.WriteLine("Billing Report:");
+                        Console.WriteLine("Billing Menu");
                         Console.WriteLine("1. System-wide total");
                         Console.WriteLine("2. Individual patient");
-                        Console.Write("Choose option: ");
-                        int billingOption = int.Parse(Console.ReadLine());
-
-                        if (billingOption == 1)
+                        Console.Write("Enter your choice: ");
+                        int billChoice = 0;
+                        try 
                         {
-                            double totalBilling = 0;
-
-                            for (int i = 0; i <= lastIndex; i++)
-                            {
-                                totalBilling += billingAmount[i];
-                            }
-
-                            Console.WriteLine("----------------------------------------");
-                            Console.WriteLine("Total billing collected: " + totalBilling + " OMR");
+                            billChoice=int.Parse(Console.ReadLine());
                         }
-                        else if (billingOption == 2)
+                        catch (Exception e)
                         {
-                            Console.Write("Enter Patient ID or Name: ");
-                            string billingInput = Console.ReadLine();
+                            Console.WriteLine("Invalid input. Please enter 1 or 2.");
+                        }
 
-                            bool billingFound = false;
+                        switch (billChoice)
+                        {
+                            case 1:
+                                double total = 0;
 
-                            for (int i = 0; i <= lastIndex; i++)
-                            {
-                                if (patientNames[i] == billingInput || patientIDs[i] == billingInput)
+                                for (int i = 0; i <= lastIndex; i++)
                                 {
-                                    billingFound = true;
-                                    Console.WriteLine("----------------------------------------");
-                                    Console.WriteLine("Billing for " + patientNames[i] + ": " + billingAmount[i] + " OMR");
-                                    break;
+                                    total += billingAmount[i];
                                 }
-                            }
 
-                            if (billingFound == false)
-                            {
-                                Console.WriteLine("No billing records found for this patient");
-                            }
+                                Console.WriteLine("Total system billing: " + total);
+                                break;
+
+                            case 2:
+                                Console.Write("Enter patient ID or name: ");
+                                string INPUT = Console.ReadLine();
+
+                                int FOUNDINDEX = -1;
+
+
+                                for (int i = 0; i <= lastIndex; i++)
+                                {
+                                    if (patientNames[i] == INPUT || patientIDs[i] == INPUT)
+                                    {
+                                        FOUNDINDEX = i;
+                                        break;
+                                    }
+                                }
+
+
+                                if (FOUNDINDEX == -1 || billingAmount[FOUNDINDEX] == 0)
+                                {
+                                    Console.WriteLine("No billing records found for this patient");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Total billing amount: " + billingAmount[FOUNDINDEX]);
+                                }
+
+                                break;
+                        }
+                        break;
+
+                            case 10: // Exit
+                                Console.WriteLine("Exiting system...");
+                                Console.WriteLine("Thank you for using the Healthcare Management System!");
+                                Console.WriteLine("----------------------------------------");
+                                exit = true;
+                                break;
+
+                            default:
+                                Console.WriteLine("Invalid option. Please try again.");
+                                break;
                         }
 
-                        break;
-
-                    case 10: // Exit
-                        Console.WriteLine("Exiting system...");
-                        Console.WriteLine("Thank you for using the Healthcare Management System!");
-                        Console.WriteLine("----------------------------------------");
-                        exit = true;
-                        break;
-
-                    default:
-                        Console.WriteLine("Invalid option. Please try again.");
-                        break;
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                        Console.Clear();
                 }
 
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey();
-                Console.Clear();
+
             }
-
-
-        }
         }
     }
+
