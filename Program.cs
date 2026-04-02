@@ -129,14 +129,14 @@ namespace HealthCareSystem
                         departments[lastIndex] = Console.ReadLine();
 
 
-                        patientIDs[lastIndex] = "P" + lastIndex.ToString("D3");
+                        patientIDs[lastIndex] = "P" + (lastIndex+1).ToString("D3");
                         admitted[lastIndex] = false;
                         assignedDoctors[lastIndex] = "";
                         visitCount[lastIndex] = 0;
                         billingAmount[lastIndex] = 0;
 
                         Console.WriteLine("Patient registered successfully with ID :" + patientIDs[lastIndex]);
-                        lastIndex++;
+                        
                         break;
 
                     case 2: // Admit Patient
@@ -205,24 +205,26 @@ namespace HealthCareSystem
                                     if (hasFee == "yes")
                                     {
                                         Console.Write("Enter consultation fee amount: ");
-                                        double fee = 0;
-                                        try
-                                        {
-                                            fee = double.Parse(Console.ReadLine());
-                                            if (fee > 0)
+                                      
+                                            double fee = 0;
+                                            try
                                             {
-                                                billingAmount[i] += fee;
-                                                visitCharges += fee;
+                                                fee = double.Parse(Console.ReadLine());
+                                                if (fee > 0)
+                                                {
+                                                    billingAmount[i] += fee;
+                                                    visitCharges += fee;
+                                                }
+                                                else
+                                                {
+                                                    Console.WriteLine("fee amount must be posititve");
+                                                }
                                             }
-                                            else
+                                            catch (Exception e)
                                             {
-                                                Console.WriteLine("fee amount must be posititve");
+                                                Console.WriteLine("Invalid amount. Please enter a valid number.");
                                             }
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            Console.WriteLine("Invalid amount. Please enter a valid number.");
-                                        }
+                                        
                                     }
 
                                     Console.Write("Any medication charges? (yes/no): ");
@@ -307,13 +309,19 @@ namespace HealthCareSystem
                                 Console.WriteLine("Department:     " + departments[i]);
                                 Console.WriteLine("Admitted:       " + admitted[i]);
                                 Console.WriteLine("Total Visits:   " + visitCount[i]);
-                                Console.WriteLine("Total Billing:  " + billingAmount[i] + " OMR");
-                                Console.WriteLine("Doctor:         " + assignedDoctors[i]);
-                                Console.WriteLine("----------------------------------------");
-                                break;
+                                Console.WriteLine("Total Billing:  " + billingAmount[i] + " OMR");                                                                                            
+                               if (admitted[i] == false)
+                                {
+
+                                    Console.WriteLine("patient not currently admitted.");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Doctor:" + assignedDoctors[i]);
+                                }
                             }
 
-
+                            
                         }
 
                         if (pateintFound == false)
