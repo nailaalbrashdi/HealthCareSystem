@@ -356,10 +356,7 @@ namespace HealthCareSystem
                             }
                         }
 
-                        if (hasAdmitted == false)
-                        {
-                            Console.WriteLine("No patients currently admitted");
-                        }
+                        
 
                         break;
 
@@ -379,6 +376,11 @@ namespace HealthCareSystem
                                 doctorFound = true;
                                 assignedDoctors[i] = newDoctor;
                                 Console.WriteLine("Patient '" + patientNames[i] + "' has been transferred to " + newDoctor);
+                                if(currentDoctor != newDoctor)
+                                    Console.WriteLine("This patient has been transferred from " + currentDoctor + " to " + newDoctor);
+                                 else
+                                    Console.WriteLine("Patient is already under " + newDoctor);
+                                break;
                             }
                         }
 
