@@ -348,6 +348,11 @@ namespace HealthCareSystem
                             {
                                 Console.WriteLine("Name: " + patientNames[i] + " | ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i] + " | Doctor: " + assignedDoctors[i]);
                                 hasAdmitted = true;
+                                if(visitCount[i] > 1)
+                                   Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
+                                else
+                                    Console.WriteLine("this is first time");
+
                             }
                         }
 
