@@ -69,7 +69,7 @@ namespace HealthCareSystem
             visitCount[lastIndex] = 1;
             billingAmount[lastIndex] = 0;
 
-            lastIndex++;
+            
             
             ////////////////////////////////////////////////////////////////////
 
@@ -114,8 +114,8 @@ namespace HealthCareSystem
 
 
                     case 1: // Register New Patient
-                        
 
+                        lastIndex++;
                         Console.Write("Patient Name: ");
                         patientNames[lastIndex] = Console.ReadLine();
 
@@ -440,20 +440,12 @@ namespace HealthCareSystem
 
                         for (int i = 0; i <= lastIndex; i++)
                         {
-                            if (departments[i].ToLower() == searchDept.ToLower())
+                            if (departments[i].ToLower().Contains(searchDept.ToLower()))
                             {
                                 deptFound = true;
 
 
                                 string status = admitted[i] ? "Admitted" : "Not Admitted"; //ternary operator
-
-                                //string stat;
-                                //if (admitted[i] == true)
-                                //    stat = "admitted";
-                                //else
-                                //    stat = "not admitted";
-
-
                                 Console.WriteLine("ID: " + patientIDs[i] + " | Name: " + patientNames[i] + " | Diagnosis: " + diagnoses[i] + " | Status: " + status);
                             }
                         }
