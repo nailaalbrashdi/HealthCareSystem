@@ -500,18 +500,23 @@ namespace HealthCareSystem
                                         break;
                                     }
                                 }
-
-
-                                if (FOUNDINDEX == -1 || billingAmount[FOUNDINDEX] == 0)
-                                {
-                                    Console.WriteLine("No billing records found for this patient");
-                                }
-                                else
+                   
+                                if (billingAmount[FOUNDINDEX] > 0)
+                              
                                 {
                                     Console.WriteLine("Total billing amount: " + billingAmount[FOUNDINDEX]);
                                 }
+                                else
+                                {
+                                    Console.WriteLine("No billing records found for this patient");
+                                }
 
+                                    break;
+                            default:
+                                Console.WriteLine("Invalid option. Please try again");
+                                
                                 break;
+
                         }
                         break;
 
