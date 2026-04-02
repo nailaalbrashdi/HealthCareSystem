@@ -521,11 +521,21 @@ namespace HealthCareSystem
                         break;
 
                             case 10: // Exit
-                                Console.WriteLine("Exiting system...");
-                                Console.WriteLine("Thank you for using the Healthcare Management System!");
+                                Console.WriteLine("Exiting system...");                         
                                 Console.WriteLine("----------------------------------------");
-                                exit = true;
-                                break;
+                              
+                                Console.WriteLine("are you sure you want to exit?(yes/no)");
+                                string wantExit = Console.ReadLine();
+                                if (wantExit== "no")
+                                   {
+                                     exit = false;
+                                   }
+                                else
+                                   {
+                                        exit= true;
+                                        Console.WriteLine("Thank you for using the Healthcare Management System!");
+                                   }
+                             break;
 
                             default:
                                 Console.WriteLine("Invalid option. Please try again.");
