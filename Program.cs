@@ -173,10 +173,17 @@ namespace HealthCareSystem
                                     Console.Write("Doctor Name: ");
                                     assignedDoctors[i] = Console.ReadLine();
 
+                                    Console.WriteLine("Enter Admission Date : ");
+                                    string AdmitionDate = Console.ReadLine();
+                                    lastVisitDate[i] = AdmitionDate;
+
+                                    lastDischargeDate[i] = "";
+
                                     admitted[i] = true;
                                     visitCount[i]++;                                   
 
                                     Console.WriteLine("Patient admitted successfully and assigned to " + assignedDoctors[i]);
+                                    Console.WriteLine("AdmissionDate :" + lastVisitDate[i]);
 
                                     if (visitCount[i] > 1)
                                         Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
