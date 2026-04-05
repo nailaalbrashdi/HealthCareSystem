@@ -24,10 +24,13 @@ namespace HealthCareSystem
             double[] billingAmount = new double[100];
 
 
-            DateTime[] lastVisitDate = new DateTime[100];
+            DateTime[] lastVisitDate = new DateTime[100];           
+            string[] lastDischargeDate = new string[100];
+            int[] daysInHospital = new int[100];
+            string[] bloodType = new string[100];
 
 
-            // Patient[] patients = new Patient[100];
+            
 
             //////////////////////////////////////////////////////
 
