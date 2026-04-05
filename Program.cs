@@ -136,6 +136,9 @@ namespace HealthCareSystem
                         Console.Write("Diagnosis: ");
                         diagnoses[lastIndex] = Console.ReadLine();
 
+                        Console.Write("Enter Blood Type: ");
+                        bloodType[lastIndex] = Console.ReadLine();
+
                         Console.Write("Department: ");
                         departments[lastIndex] = Console.ReadLine();
 
@@ -145,6 +148,9 @@ namespace HealthCareSystem
                         assignedDoctors[lastIndex] = "";
                         visitCount[lastIndex] = 0;
                         billingAmount[lastIndex] = 0;
+                        lastVisitDate[lastIndex] = "";
+                        lastDischargeDate[lastIndex] = "";
+                        daysInHospital[lastIndex] = 0;
 
                         Console.WriteLine("Patient registered successfully with ID :" + patientIDs[lastIndex]);
                         
