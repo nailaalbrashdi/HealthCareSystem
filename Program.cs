@@ -24,16 +24,13 @@ namespace HealthCareSystem
             double[] billingAmount = new double[100];
 
 
-            DateTime[] lastVisitDate = new DateTime[100];           
+            string[] lastVisitDate = new string[100];           
             string[] lastDischargeDate = new string[100];
             int[] daysInHospital = new int[100];
             string[] bloodType = new string[100];
 
 
             
-
-            //////////////////////////////////////////////////////
-
 
             // Seed Data
             /////////////////////////////////////////////////////
@@ -48,7 +45,10 @@ namespace HealthCareSystem
             assignedDoctors[lastIndex] = "";
             visitCount[lastIndex] = 2;
             billingAmount[lastIndex] = 0;
-            lastVisitDate[lastIndex] = DateTime.Today;
+            lastVisitDate[lastIndex] = "2025-01-10";
+            lastDischargeDate[lastIndex] = "2025-01-15";
+            daysInHospital[lastIndex] = 12;
+            bloodType[lastIndex] = "A+";
 
             lastIndex++;
 
@@ -60,6 +60,10 @@ namespace HealthCareSystem
             assignedDoctors[lastIndex] = "Dr. Noor";
             visitCount[lastIndex] = 4;
             billingAmount[lastIndex] = 0;
+            lastVisitDate[lastIndex] = "2025-03-02";
+            lastDischargeDate[lastIndex] = "";
+            daysInHospital[lastIndex] = 8;
+            bloodType[lastIndex] = "O-";
 
             lastIndex++;
 
@@ -71,9 +75,13 @@ namespace HealthCareSystem
             assignedDoctors[lastIndex] = "";
             visitCount[lastIndex] = 1;
             billingAmount[lastIndex] = 0;
+            lastVisitDate[lastIndex] = "2024-12-20";
+            lastDischargeDate[lastIndex] = "2024-12-28";
+            daysInHospital[lastIndex] = 5;
+            bloodType[lastIndex] = "B+";
 
-            
-            
+
+
             ////////////////////////////////////////////////////////////////////
 
 
@@ -160,8 +168,7 @@ namespace HealthCareSystem
                                     assignedDoctors[i] = Console.ReadLine();
 
                                     admitted[i] = true;
-                                    visitCount[i]++;
-                                    lastVisitDate[i] = DateTime.Now;
+                                    visitCount[i]++;                                   
 
                                     Console.WriteLine("Patient admitted successfully and assigned to " + assignedDoctors[i]);
 
