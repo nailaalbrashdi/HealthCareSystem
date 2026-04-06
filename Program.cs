@@ -485,7 +485,7 @@ namespace HealthCareSystem
 
 
                                 string status = admitted[i] ? "Admitted" : "Not Admitted"; //ternary operator
-                                Console.WriteLine("ID: " + patientIDs[i] + " | Name: " + patientNames[i] + " | Diagnosis: " + diagnoses[i] + " | Status: " + status);
+                                Console.WriteLine("ID: " + patientIDs[i] + " | Name: " + patientNames[i] + " | Diagnosis: " + diagnoses[i] + " | Blood type: " + bloodType[i] + " | Status: " + status[i]);
                             }
                         }
 
