@@ -292,9 +292,9 @@ namespace HealthCareSystem
                                     Console.Write("Enter Discharge Date : ");
                                     string dischargeDate = Console.ReadLine();
                                     lastDischargeDate[i] = DateTime.Parse(dischargeDate);
-                                    Console.Write("enter the number of days spent in hospital : ");
+                                    Console.Write("enter the number of days spent in hospital during this visit: ");
                                     daysInHospital[i]=int.Parse(Console.ReadLine());
-                                    Console.Write("number of day spent in hospital is :" + daysInHospital[i]);
+                                    Console.Write("Total days in hospital :" + daysInHospital[i]);
                                     Console.WriteLine("Patient discharged successfully!");
 
                                 }
