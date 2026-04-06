@@ -387,7 +387,7 @@ namespace HealthCareSystem
                         {
                             if (admitted[i] == true)
                             {
-                                Console.WriteLine("Name: " + patientNames[i] + " | ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i] + " | Doctor: " + assignedDoctors[i]);
+                                Console.WriteLine("Name: " + patientNames[i] + " | ID: " + patientIDs[i] + " | Diagnosis: " + diagnoses[i] + " | Department: " + departments[i] + " | Doctor: " + assignedDoctors[i] + "| Admitted Since: " + lastVisitDate[i].ToString("yyyy - MM - dd"));
                                 hasAdmitted = true;
                                 if(visitCount[i] > 1)
                                    Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
@@ -396,8 +396,6 @@ namespace HealthCareSystem
 
                             }
                         }
-
-                        
 
                         break;
 
