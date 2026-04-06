@@ -128,19 +128,19 @@ namespace HealthCareSystem
 
                         lastIndex++;
                         Console.Write("Patient Name: ");
-                        patientNames[lastIndex] = Console.ReadLine();
+                        patientNames[lastIndex] = Console.ReadLine().Trim();
 
                         //Console.Write("Patient ID: ");
                         //patientIDs[lastIndex] = Console.ReadLine();
 
                         Console.Write("Diagnosis: ");
-                        diagnoses[lastIndex] = Console.ReadLine();
+                        diagnoses[lastIndex] = Console.ReadLine().Trim();
 
                         Console.Write("Enter Blood Type: ");
-                        bloodType[lastIndex] = Console.ReadLine();
+                        bloodType[lastIndex] = Console.ReadLine().ToUpper();
 
                         Console.Write("Department: ");
-                        departments[lastIndex] = Console.ReadLine();
+                        departments[lastIndex] = Console.ReadLine().Trim();
 
 
                         patientIDs[lastIndex] = "P" + (lastIndex+1).ToString("D3");
