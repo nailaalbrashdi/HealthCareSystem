@@ -418,7 +418,7 @@ namespace HealthCareSystem
                                 if (currentDoctor != newDoctor)
                                 {
                                     Console.WriteLine("Patient '" + patientNames[i] + "' has been transferred from " + currentDoctor + " to " + newDoctor);
-                                    
+                                    Console.WriteLine("Patient last admitted on: " + lastVisitDate[i]);
                                 }
 
                                 else
