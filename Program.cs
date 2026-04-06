@@ -379,6 +379,8 @@ namespace HealthCareSystem
 
                     case 5: // List All Admitted Patients
                         Console.WriteLine("Currently Admitted Patients:");
+                        Console.WriteLine("Filter by name keyword (press Enter to skip):");
+                        string nameFilter = Console.ReadLine();
                         Console.WriteLine("----------------------------------------");
 
                         bool hasAdmitted = false;
@@ -401,10 +403,10 @@ namespace HealthCareSystem
 
                     case 6: // Transfer Patient to Another Doctor
                         Console.Write("Enter current doctor name: ");
-                        string currentDoctor = Console.ReadLine();
+                        string currentDoctor = Console.ReadLine().Trim().Replace("Dr ","Dr.");
 
                         Console.Write("Enter new doctor name: ");
-                        string newDoctor = Console.ReadLine();
+                        string newDoctor = Console.ReadLine().Trim().Replace("Dr ","Dr.");
 
                         bool doctorFound = false;
 
