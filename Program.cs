@@ -476,7 +476,7 @@ namespace HealthCareSystem
 
                         bool deptFound = false;
 
-                        Console.WriteLine("Patients in department '" + searchDept + "':");
+                        Console.WriteLine("Patients in department '" + searchDept.ToUpper() + "':");
                         Console.WriteLine("----------------------------------------");
 
                         for (int i = 0; i <= lastIndex; i++)
@@ -484,12 +484,25 @@ namespace HealthCareSystem
                             if (departments[i].ToLower().Contains(searchDept.ToLower()))
                             {
                                 deptFound = true;
-
-
                                 string status = admitted[i] ? "Admitted" : "Not Admitted"; //ternary operator
-                                Console.WriteLine("ID: " + patientIDs[i] + " | Name: " + patientNames[i] + " | Diagnosis: " + diagnoses[i] + " | Blood type: " + bloodType[i] + " | Status: " + status[i]);
+
+                                string diagDisplay = diagnoses[i];
+                                if (diagDisplay.Length > 15)
+                                {
+                                    diagDisplay = diagDisplay.Substring(0, 15) + "...";
+                                }
+
+                                // Print patient info
+                                Console.WriteLine(
+                                    "ID: " + patientIDs[i] +
+                                    " | Name: " + patientNames[i] +
+                                    " | Diagnosis: " + diagDisplay +
+                                    " | Blood type: " + bloodType[i] +
+                                    " | Status: " + status
+                                );
                             }
                         }
+
 
                         if (deptFound == false)
                         {
