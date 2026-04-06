@@ -336,6 +336,7 @@ namespace HealthCareSystem
                                 Console.WriteLine("Name:           " + patientNames[i]);
                                 Console.WriteLine("ID:             " + patientIDs[i]);
                                 Console.WriteLine("Diagnosis:      " + diagnoses[i]);
+                                Console.WriteLine("Blood Type:     " + bloodType[i]);
                                 Console.WriteLine("Department:     " + departments[i]);
                                 Console.WriteLine("Admitted:       " + admitted[i]);
                                 Console.WriteLine("Total Visits:   " + visitCount[i]);
@@ -347,11 +348,21 @@ namespace HealthCareSystem
                                 }
                                 else
                                 {
+                                    
                                     Console.WriteLine("Doctor:" + assignedDoctors[i]);
                                 }
+                                if (lastVisitDate[i] != new DateTime())
+                                {
+                                    Console.WriteLine("Last Visit Date: " + lastVisitDate[i].ToShortDateString());
+                                }
+                                if (lastDischargeDate[i] != new DateTime())
+                                {
+                                    Console.WriteLine("Last Discharge Date: " + lastDischargeDate[i].ToShortDateString());
+                                }
+                                Console.WriteLine("Total days in hospital :" + daysInHospital[i]);
                             }
-
                             
+
                         }
 
                         if (pateintFound == false)
