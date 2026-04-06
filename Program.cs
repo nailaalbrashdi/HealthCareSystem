@@ -173,11 +173,9 @@ namespace HealthCareSystem
                                     Console.Write("Doctor Name: ");
                                     assignedDoctors[i] = Console.ReadLine();
                                     DateTime AdmissionDate= DateTime.Now;
-                                    Console.WriteLine("Admission Date : " + AdmissionDate);
-                                    
-
-                                    lastDischargeDate[i] = new DateTime();
-
+                                    lastVisitDate[i] = AdmissionDate;
+                                    Console.WriteLine("Admission Date : " + AdmissionDate.ToString("yyyy - MM - dd HH: mm"));
+                                                                       
                                     admitted[i] = true;
                                     visitCount[i]++;                                   
 
