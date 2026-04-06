@@ -24,8 +24,8 @@ namespace HealthCareSystem
             double[] billingAmount = new double[100];
 
 
-            string[] lastVisitDate = new string[100];           
-            string[] lastDischargeDate = new string[100];
+            DateTime[] lastVisitDate = new DateTime[100];
+            DateTime[] lastDischargeDate = new DateTime[100];
             int[] daysInHospital = new int[100];
             string[] bloodType = new string[100];
 
@@ -45,8 +45,8 @@ namespace HealthCareSystem
             assignedDoctors[lastIndex] = "";
             visitCount[lastIndex] = 2;
             billingAmount[lastIndex] = 0;
-            lastVisitDate[lastIndex] = "2025-01-10";
-            lastDischargeDate[lastIndex] = "2025-01-15";
+            lastVisitDate[lastIndex] = new DateTime(2025,01,10);
+            lastDischargeDate[lastIndex] = new DateTime(2025,01,15);
             daysInHospital[lastIndex] = 12;
             bloodType[lastIndex] = "A+";
 
@@ -60,8 +60,8 @@ namespace HealthCareSystem
             assignedDoctors[lastIndex] = "Dr. Noor";
             visitCount[lastIndex] = 4;
             billingAmount[lastIndex] = 0;
-            lastVisitDate[lastIndex] = "2025-03-02";
-            lastDischargeDate[lastIndex] = "";
+            lastVisitDate[lastIndex] = new DateTime(2025,03,02);
+            lastDischargeDate[lastIndex] = new DateTime();
             daysInHospital[lastIndex] = 8;
             bloodType[lastIndex] = "O-";
 
@@ -75,8 +75,8 @@ namespace HealthCareSystem
             assignedDoctors[lastIndex] = "";
             visitCount[lastIndex] = 1;
             billingAmount[lastIndex] = 0;
-            lastVisitDate[lastIndex] = "2024-12-20";
-            lastDischargeDate[lastIndex] = "2024-12-28";
+            lastVisitDate[lastIndex] = new DateTime(2024,12,20);
+            lastDischargeDate[lastIndex] = new DateTime(2024,12,28);
             daysInHospital[lastIndex] = 5;
             bloodType[lastIndex] = "B+";
 
@@ -148,8 +148,8 @@ namespace HealthCareSystem
                         assignedDoctors[lastIndex] = "";
                         visitCount[lastIndex] = 0;
                         billingAmount[lastIndex] = 0;
-                        lastVisitDate[lastIndex] = "";
-                        lastDischargeDate[lastIndex] = "";
+                        lastVisitDate[lastIndex] = new DateTime();
+                        lastDischargeDate[lastIndex] = new DateTime();
                         daysInHospital[lastIndex] = 0;
 
                         Console.WriteLine("Patient registered successfully with ID :" + patientIDs[lastIndex]);
@@ -173,17 +173,17 @@ namespace HealthCareSystem
                                     Console.Write("Doctor Name: ");
                                     assignedDoctors[i] = Console.ReadLine();
 
-                                    Console.WriteLine("Enter Admission Date : ");
+                                    Console.Write("Enter Admission Date : ");
                                     string AdmitionDate = Console.ReadLine();
-                                    lastVisitDate[i] = AdmitionDate;
+                                    lastVisitDate[i] = DateTime.Parse(AdmitionDate);
 
-                                    lastDischargeDate[i] = "";
+                                    lastDischargeDate[i] = new DateTime();
 
                                     admitted[i] = true;
                                     visitCount[i]++;                                   
 
                                     Console.WriteLine("Patient admitted successfully and assigned to " + assignedDoctors[i]);
-                                    Console.WriteLine("AdmissionDate :" + lastVisitDate[i]);
+                                    Console.WriteLine("Admission Date :" + lastVisitDate[i]);
 
                                     if (visitCount[i] > 1)
                                         Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
@@ -289,7 +289,14 @@ namespace HealthCareSystem
                                     admitted[i] = false;
                                     assignedDoctors[i] = "";
 
+                                    Console.Write("Enter Discharge Date : ");
+                                    string dischargeDate = Console.ReadLine();
+                                    lastDischargeDate[i] = DateTime.Parse(dischargeDate);
+                                    Console.Write("enter the number of days spent in hospital : ");
+                                    daysInHospital[i]=int.Parse(Console.ReadLine());
+                                    Console.Write("number of day spent in hospital is :" + daysInHospital[i]);
                                     Console.WriteLine("Patient discharged successfully!");
+
                                 }
                                 else
                                 {
