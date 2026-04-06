@@ -544,6 +544,9 @@ namespace HealthCareSystem
                               
                                 {
                                     Console.WriteLine("Total billing amount: " + billingAmount[FOUNDINDEX]);
+                                    Console.WriteLine("Last Visit Date: " + lastVisitDate[lastIndex]);
+                                    Console.WriteLine("Total Days spent in hospital: " + daysInHospital[lastIndex]);
+
                                 }
                                 else
                                 {
