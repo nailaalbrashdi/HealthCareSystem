@@ -172,10 +172,9 @@ namespace HealthCareSystem
                                 {
                                     Console.Write("Doctor Name: ");
                                     assignedDoctors[i] = Console.ReadLine();
-
-                                    Console.Write("Enter Admission Date : ");
-                                    string AdmitionDate = Console.ReadLine();
-                                    lastVisitDate[i] = DateTime.Parse(AdmitionDate);
+                                    DateTime AdmissionDate= DateTime.Now;
+                                    Console.WriteLine("Admission Date : " + AdmissionDate);
+                                    
 
                                     lastDischargeDate[i] = new DateTime();
 
@@ -183,7 +182,7 @@ namespace HealthCareSystem
                                     visitCount[i]++;                                   
 
                                     Console.WriteLine("Patient admitted successfully and assigned to " + assignedDoctors[i]);
-                                    Console.WriteLine("Admission Date :" + lastVisitDate[i]);
+                                    
 
                                     if (visitCount[i] > 1)
                                         Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
