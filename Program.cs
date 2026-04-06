@@ -334,14 +334,14 @@ namespace HealthCareSystem
                                 pateintFound = true;
                                 Console.WriteLine("----------------------------------------");
                                 Console.WriteLine("Name:           " + patientNames[i]);
-                                Console.WriteLine("ID:             " + patientIDs[i]);
-                                Console.WriteLine("Diagnosis:      " + diagnoses[i]);
+                                Console.WriteLine("ID:             " + patientIDs[i].ToUpper());
+                                Console.WriteLine("Diagnosis:      " + diagnoses[i]+" (" + diagnoses[i].Length + " characters)");
                                 Console.WriteLine("Blood Type:     " + bloodType[i]);
                                 Console.WriteLine("Department:     " + departments[i]);
                                 Console.WriteLine("Admitted:       " + admitted[i]);
                                 Console.WriteLine("Total Visits:   " + visitCount[i]);
-                                Console.WriteLine("Total Billing:  " + billingAmount[i] + " OMR");                                                                                            
-                               if (admitted[i] == false)
+                                Console.WriteLine("Total Billing: " + Convert.ToString(Math.Round(billingAmount[i], 2)) + " OMR");
+                                if (admitted[i] == false)
                                 {
 
                                     Console.WriteLine("patient not currently admitted.");
