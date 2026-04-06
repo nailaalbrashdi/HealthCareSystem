@@ -225,15 +225,17 @@ namespace HealthCareSystem
                                     if (hasFee == "yes")
                                     {
                                         Console.Write("Enter consultation fee amount: ");
-                                      
-                                            double fee = 0;
+
+                                              double fee = 0;
                                             try
                                             {
                                                 fee = double.Parse(Console.ReadLine());
                                                 if (fee > 0)
                                                 {
-                                                    billingAmount[i] += fee;
-                                                    visitCharges += fee;
+
+                                                     fee = Math.Round(fee, 2);
+                                                     billingAmount[i] = Math.Round(billingAmount[i] + fee, 2);
+                                                     visitCharges += fee;
                                                 }
                                                 else
                                                 {
@@ -259,7 +261,8 @@ namespace HealthCareSystem
                                             meds = double.Parse(Console.ReadLine());
                                             if (meds > 0)
                                             {
-                                                billingAmount[i] += meds;
+                                                meds = Math.Round(meds, 2);
+                                                billingAmount[i] = Math.Round(billingAmount[i] + meds, 2);
                                                 visitCharges += meds;
                                             }
                                             else
