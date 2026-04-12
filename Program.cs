@@ -159,110 +159,115 @@ namespace HealthCareSystem
             }
             Console.WriteLine("Total days in hospital :" + daysInHospital[index]);
         }
-        
 
-            static void Main(string[] args)
-            
+        static public void AdmitPatient(int admitIndex)
+        {
+            if (admitted[admitIndex])
             {
+                Console.WriteLine("Patient is already admitted under " + assignedDoctors[admitIndex]);
+            }
+            else
+            {
+                Console.Write("Doctor Name: ");
+                assignedDoctors[admitIndex] = Console.ReadLine();
 
-                seedData();
+                DateTime admissionDate = DateTime.Now;
+                lastVisitDate[admitIndex] = admissionDate;
 
- 
-                bool exit = false;
+                Console.WriteLine("Admission Date: " + admissionDate.ToString("yyyy-MM-dd HH:mm"));
 
-                while (exit == false)
+                admitted[admitIndex] = true;
+                visitCount[admitIndex]++;
+
+                Console.WriteLine("Patient admitted successfully and assigned to " + assignedDoctors[admitIndex]);
+
+                if (visitCount[admitIndex] > 1)
                 {
-                    displayMenu();
-
-                    Console.Write("Choose option: ");
-
-                    int choice = 0;
-
-                    try
-                    {
-
-                        choice = int.Parse(Console.ReadLine());
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine("Invalid input. Please choose a number from 1 to 10.");
-                    }
-
-                    switch (choice)
-                    {
-
-                        case 1: // Register New Patient
-
-                            lastIndex++;
-                            Console.Write("Patient Name: ");
-                            patientNames[lastIndex] = Console.ReadLine().Trim();
+                    Console.WriteLine("This patient has been admitted " + visitCount[admitIndex] + " times");
+                }
+                else
+                {
+                    Console.WriteLine("This is the first time");
+                }
+            }
+        }
 
 
-                            Console.Write("Diagnosis: ");
-                            diagnoses[lastIndex] = Console.ReadLine().Trim();
 
-                            Console.Write("Enter Blood Type: ");
-                            bloodType[lastIndex] = Console.ReadLine().ToUpper();
+        static void Main(string[] args)
 
-                            Console.Write("Department: ");
-                            departments[lastIndex] = Console.ReadLine().Trim();
+        {
 
-                            string PID=registerPatient(patientNames[lastIndex], diagnoses[lastIndex], bloodType[lastIndex], departments[lastIndex]);
-
-                            Console.WriteLine("Patient registered successfully with ID :" +PID);
+            seedData();
 
 
-                            break;
+            bool exit = false;
 
-                        case 2: // Admit Patient
-                            Console.Write("Enter Patient ID or Name: ");
-                            string admitInput = Console.ReadLine();
+            while (exit == false)
+            {
+                displayMenu();
 
-                            bool admitFound = false;
+                Console.Write("Choose option: ");
 
-                            for (int i = 0; i <= lastIndex; i++)
-                            {
-                                if (patientNames[i] == admitInput || patientIDs[i] == admitInput)
-                                {
-                                    admitFound = true;
+                int choice = 0;
 
-                                    if (admitted[i] == false)
-                                    {
-                                        Console.Write("Doctor Name: ");
-                                        assignedDoctors[i] = Console.ReadLine();
-                                        DateTime AdmissionDate = DateTime.Now;
-                                        lastVisitDate[i] = AdmissionDate;
-                                        Console.WriteLine("Admission Date : " + AdmissionDate.ToString("yyyy - MM - dd HH: mm"));
+                try
+                {
 
-                                        admitted[i] = true;
-                                        visitCount[i]++;
+                    choice = int.Parse(Console.ReadLine());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Invalid input. Please choose a number from 1 to 10.");
+                }
 
-                                        Console.WriteLine("Patient admitted successfully and assigned to " + assignedDoctors[i]);
+                switch (choice)
+                {
+
+                    case 1: // Register New Patient
+
+                        lastIndex++;
+                        Console.Write("Patient Name: ");
+                        patientNames[lastIndex] = Console.ReadLine().Trim();
 
 
-                                        if (visitCount[i] > 1)
-                                            Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
-                                        else
-                                            Console.WriteLine("this is first time");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Patient is already admitted under " + assignedDoctors[i]);
-                                    }
+                        Console.Write("Diagnosis: ");
+                        diagnoses[lastIndex] = Console.ReadLine().Trim();
 
-                                    break;
-                                }
-                            }
+                        Console.Write("Enter Blood Type: ");
+                        bloodType[lastIndex] = Console.ReadLine().ToUpper();
 
-                            if (admitFound == false)
-                            {
-                                Console.WriteLine("Patient not found");
-                            }
+                        Console.Write("Department: ");
+                        departments[lastIndex] = Console.ReadLine().Trim();
 
-                            break;
+                        string PID = registerPatient(patientNames[lastIndex], diagnoses[lastIndex], bloodType[lastIndex], departments[lastIndex]);
 
-                        case 3: // Discharge Patient
+                        Console.WriteLine("Patient registered successfully with ID :" + PID);
+
+
+                        break;
+
+                    case 2: // Admit Patient
+                        Console.Write("Enter Patient ID or Name: ");
+                        string admitInput = Console.ReadLine();
+
+                        int admitIndex = searchPatient(admitInput);
+
+                        if (admitIndex == -1)
+                         {
+                            Console.WriteLine("Patient not found");
+                         }
+                        else
+                         {
+                            AdmitPatient(admitIndex);
+                         }
+
+                        break;
+
+
+
+                    case 3: // Discharge Patient
                             Console.Write("Enter Patient ID or Name: ");
                             string dischargeInput = Console.ReadLine();
 
