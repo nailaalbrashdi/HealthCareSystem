@@ -27,14 +27,20 @@ namespace HealthCareSystem
         static DateTime[] lastDischargeDate = new DateTime[100];
         static int[] daysInHospital = new int[100];
         static string[] bloodType = new string[100];
+        static string[] doctorNames= new string[50];
+        static int[] doctorAvailableSlots= new int[50];
+        static int[] doctorVisitCount=new int[50];
+
         static int lastIndex = 0;
+        static int lastDoctorIndex = 0;
         static bool exit = false;
 
         static public void seedData()
         {
 
 
-            
+            // patient 1
+
             patientNames[lastIndex] = "Ali Hassan";
             patientIDs[lastIndex] = "P001";
             diagnoses[lastIndex] = "Flu";
@@ -49,6 +55,8 @@ namespace HealthCareSystem
             bloodType[lastIndex] = "A+";
 
             lastIndex++;
+
+            //patient 2
 
             patientNames[lastIndex] = "Sara Ahmed";
             patientIDs[lastIndex] = "P002";
@@ -65,6 +73,8 @@ namespace HealthCareSystem
 
             lastIndex++;
 
+            //patient 3
+
             patientNames[lastIndex] = "Omar Khalid";
             patientIDs[lastIndex] = "P003";
             diagnoses[lastIndex] = "Diabetes";
@@ -77,6 +87,33 @@ namespace HealthCareSystem
             lastDischargeDate[lastIndex] = new DateTime(2024, 12, 28);
             daysInHospital[lastIndex] = 5;
             bloodType[lastIndex] = "B+";
+
+
+            //Doctor seed data
+
+            // Doctor 1
+
+            doctorNames[lastDoctorIndex] = "Dr. Noor";
+            doctorAvailableSlots[lastDoctorIndex] = 5;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            lastDoctorIndex++;
+
+            // Doctor 2
+
+            doctorNames[lastDoctorIndex] = "Dr. Salem";
+            doctorAvailableSlots[lastDoctorIndex] = 3;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            lastDoctorIndex++;
+
+            // Doctor 3
+
+            doctorNames[lastDoctorIndex] = "Dr. Hana";
+            doctorAvailableSlots[lastDoctorIndex] = 8;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            
 
 
         }
@@ -94,7 +131,9 @@ namespace HealthCareSystem
             Console.WriteLine("7. View Most Visited Patients");
             Console.WriteLine("8. Search Patients by Department");
             Console.WriteLine("9. Billing Report");
-            Console.WriteLine("10. Exit");
+            Console.WriteLine("10. Add Doctor");
+            Console.WriteLine("11. Doctor Salary Report");
+            Console.WriteLine("12. Exit");
         }
 
         static public string registerPatient(string patientNames,string diagnoses,string bloodType,string department )
@@ -652,7 +691,14 @@ namespace HealthCareSystem
                         
                          break;
 
-                    case 10: // Exit
+                    case 10: // Add Doctor
+                        break;
+
+
+                        case 11: // Doctor Salary Report
+                            break;
+
+                    case 12: // Exit
                         
                            ExitSystem();
                         
