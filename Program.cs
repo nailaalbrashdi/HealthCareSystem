@@ -527,6 +527,49 @@ namespace HealthCareSystem
                     break;
             }
         }
+
+
+        static public void AddDoctor()
+        {
+            
+            Console.Write("Enter Doctor Full Name: ");
+            string doctorName = Console.ReadLine().Trim();
+
+            
+            if (!string.IsNullOrEmpty(doctorName))
+            {
+                doctorName = char.ToUpper(doctorName[0]) + doctorName.Substring(1);
+            }
+
+            Console.Write("Enter number of available slots: ");
+            string slotInput = Console.ReadLine();
+
+            int slots;
+            if (!int.TryParse(slotInput, out slots) || slots < 1)
+            {
+                Console.WriteLine("Invalid slot count. Doctor not registered.");
+                return;
+            }
+
+            // Check for duplicate doctor (case-insensitive)
+            for (int i = 0; i <= lastDoctorIndex; i++)
+            {
+                if (doctorNames[i].ToLower() == doctorName.ToLower())
+                {
+                    Console.WriteLine("Doctor already exists in the system.");
+                    return;
+                }
+            }
+
+            // Add doctor
+            lastDoctorIndex++;
+
+            doctorNames[lastDoctorIndex] = doctorName;
+            doctorAvailableSlots[lastDoctorIndex] = slots;
+            doctorVisitCount[lastDoctorIndex] = 0;
+
+            Console.WriteLine("Doctor " + doctorName + " registered successfully with " + slots + " available slots.");
+        }
         static public void ExitSystem()
         {
             Console.WriteLine("Exiting system...");
@@ -692,6 +735,9 @@ namespace HealthCareSystem
                          break;
 
                     case 10: // Add Doctor
+                        
+                        AddDoctor();
+
                         break;
 
 
