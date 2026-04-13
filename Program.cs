@@ -570,6 +570,45 @@ namespace HealthCareSystem
 
             Console.WriteLine("Doctor " + doctorName + " registered successfully with " + slots + " available slots.");
         }
+
+
+        static public void DoctorSalaryReport()
+        {
+            Console.WriteLine("Doctor Salary Report");
+            Console.WriteLine("----------------------------------------");
+
+            if (lastDoctorIndex == -1)
+            {
+                Console.WriteLine("No doctors registered in the system.");
+                return;
+            }
+
+            double maxSalary = 0;
+            int maxIndex = 0;
+
+            for (int i = 0; i <= lastDoctorIndex; i++)
+            {
+                double salary = 300 + (doctorVisitCount[i] * 15);
+                salary = Math.Round(salary, 2);
+
+                Console.WriteLine(
+                    doctorNames[i] +
+                    " | Visits: " + doctorVisitCount[i] +
+                    " | Available Slots: " + doctorAvailableSlots[i] +
+                    " | Salary: " + Convert.ToString(salary) + " OMR"
+                );
+
+                // Track highest salary
+                if (salary > maxSalary)
+                {
+                    maxSalary = Math.Max(maxSalary, salary);
+                    maxIndex = i;
+                }
+            }
+
+            Console.WriteLine("----------------------------------------");
+            Console.WriteLine("Highest earning doctor: " + doctorNames[maxIndex] + " — " + maxSalary + " OMR");
+        }
         static public void ExitSystem()
         {
             Console.WriteLine("Exiting system...");
@@ -742,7 +781,10 @@ namespace HealthCareSystem
 
 
                         case 11: // Doctor Salary Report
-                            break;
+
+                         DoctorSalaryReport();
+                        
+                        break;
 
                     case 12: // Exit
                         
