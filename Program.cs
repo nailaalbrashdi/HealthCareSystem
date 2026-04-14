@@ -26,7 +26,7 @@ namespace HealthCareSystem
         static int[] doctorVisitCount=new int[50];
 
         static int lastIndex = 0;
-        static int lastDoctorIndex = -1;
+        static int lastDoctorIndex = 0;
         static bool exit = false;
 
         static public void seedData()
@@ -36,7 +36,7 @@ namespace HealthCareSystem
             // patient 1
 
             patientNames[lastIndex] = "Ali Hassan";
-            patientIDs[lastIndex] = "P001";
+            patientIDs[lastIndex] = "P000";
             diagnoses[lastIndex] = "Flu";
             departments[lastIndex] = "General";
             admitted[lastIndex] = false;
@@ -53,7 +53,7 @@ namespace HealthCareSystem
             //patient 2
 
             patientNames[lastIndex] = "Sara Ahmed";
-            patientIDs[lastIndex] = "P002";
+            patientIDs[lastIndex] = "P001";
             diagnoses[lastIndex] = "Fracture";
             departments[lastIndex] = "Orthopedics";
             admitted[lastIndex] = true;
@@ -70,7 +70,7 @@ namespace HealthCareSystem
             //patient 3
 
             patientNames[lastIndex] = "Omar Khalid";
-            patientIDs[lastIndex] = "P003";
+            patientIDs[lastIndex] = "P002";
             diagnoses[lastIndex] = "Diabetes";
             departments[lastIndex] = "Cardiology";
             admitted[lastIndex] = false;
@@ -82,6 +82,7 @@ namespace HealthCareSystem
             daysInHospital[lastIndex] = 5;
             bloodType[lastIndex] = "B+";
 
+            lastIndex++;
 
             //Doctor seed data
 
@@ -152,7 +153,7 @@ namespace HealthCareSystem
             
             string normalizedInput = searchInput.Trim().ToLower();
 
-            for (int i = 0; i <= lastIndex; i++)
+            for (int i = 0; i < lastIndex; i++)
             {
                 
                 if (patientNames[i].ToLower().Trim() == normalizedInput ||
