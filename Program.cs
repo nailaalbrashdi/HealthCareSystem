@@ -26,7 +26,7 @@ namespace HealthCareSystem
         static int[] doctorVisitCount=new int[50];
 
         static int lastIndex = 0;
-        static int lastDoctorIndex = 0;
+        static int lastDoctorIndex = -1;
         static bool exit = false;
 
         static public void seedData()
@@ -207,7 +207,44 @@ namespace HealthCareSystem
             else
             {
                 Console.Write("Doctor Name: ");
-                assignedDoctors[admitIndex] = Console.ReadLine() ?? string.Empty;
+                string inputDoctor = (Console.ReadLine() ?? "").Trim(); 
+
+                int doctorIndex = -1;
+
+                
+                for (int i = 0; i <= lastDoctorIndex; i++)
+                {
+                    if (!string.IsNullOrEmpty(doctorNames[i]) &&
+                        doctorNames[i].Equals(inputDoctor, StringComparison.OrdinalIgnoreCase))
+                    {
+                        doctorIndex = i;
+                        break;
+                    }
+                }
+
+                
+                if (doctorIndex == -1)
+                {
+                    Console.WriteLine("Doctor not found in system.");
+                    return;
+                }
+
+                
+                if (doctorAvailableSlots[doctorIndex] <= 0)
+                {
+                    Console.WriteLine("Doctor has no available slots.");
+                    return;
+                }
+
+                
+                assignedDoctors[admitIndex] = doctorNames[doctorIndex];
+
+                
+                doctorAvailableSlots[doctorIndex]--;      // decrement slot
+                doctorVisitCount[doctorIndex]++;          // increment visits
+
+                
+                Console.WriteLine("Remaining slots for " + doctorNames[doctorIndex] + ": " + doctorAvailableSlots[doctorIndex]);
 
                 DateTime admissionDate = DateTime.Now;
                 lastVisitDate[admitIndex] = admissionDate;
@@ -230,7 +267,6 @@ namespace HealthCareSystem
             }
         }
 
-
         static public void DischargePatient(int index)
         {
             if (!admitted[index])
@@ -242,7 +278,7 @@ namespace HealthCareSystem
             double visitCharges = 0;
 
             Console.Write("Was there a consultation fee? (yes/no): ");
-            string hasFee = Console.ReadLine() ?? string.Empty.ToLower();
+            string hasFee = (Console.ReadLine() ?? "").Trim().ToLower();
 
             if (hasFee == "yes")
             {
@@ -319,8 +355,19 @@ namespace HealthCareSystem
 
             admitted[index] = false;
 
-            Console.Write("Enter Discharge Date(yyyy-MM-dd): ");
-            lastDischargeDate[index] = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+            Console.Write("Enter Discharge Date (yyyy-MM-dd): ");
+            string inputDate = Console.ReadLine() ?? string.Empty;
+
+            DateTime dischargeDate;
+
+            if (DateTime.TryParse(inputDate, out dischargeDate)) 
+            {
+                lastDischargeDate[index] = dischargeDate;
+            }
+            else
+            {
+                Console.WriteLine("Invalid date. Discharge date not recorded.");
+            }
 
             Console.Write("Enter days spent in hospital: ");
             int days;
@@ -341,17 +388,17 @@ namespace HealthCareSystem
         {
             Console.WriteLine("Currently Admitted Patients:");
             Console.Write("Filter by name keyword (press Enter to skip): ");
-            string nameFilter = Console.ReadLine() ?? string.Empty.ToLower();
+            string nameFilter = (Console.ReadLine() ?? "").ToLower();
 
             Console.WriteLine("----------------------------------------");
 
             bool hasAdmitted = false;
+            int admittedCount = 0; 
 
             for (int i = 0; i <= lastIndex; i++)
             {
                 if (admitted[i])
                 {
-                    
                     if (!string.IsNullOrEmpty(nameFilter) &&
                         !patientNames[i].ToLower().Contains(nameFilter))
                     {
@@ -368,11 +415,12 @@ namespace HealthCareSystem
                     );
 
                     hasAdmitted = true;
+                    admittedCount++;
 
                     if (visitCount[i] > 1)
                         Console.WriteLine("This patient has been admitted " + visitCount[i] + " times");
                     else
-                        Console.WriteLine("This is the first time");
+                        Console.WriteLine("This patient is being admitted for the first time"); 
                 }
             }
 
@@ -380,9 +428,13 @@ namespace HealthCareSystem
             {
                 Console.WriteLine("No admitted patients found.");
             }
+            else
+            {
+                
+                Console.WriteLine("----------------------------------------");
+                Console.WriteLine("Total admitted patients: " + admittedCount);
+            }
         }
-
-
         static public void TransferPatient()
         {
             Console.Write("Enter current doctor name: ");
@@ -519,12 +571,24 @@ namespace HealthCareSystem
                 case 1:
                     double total = 0;
 
+                    double maxBilling = double.MinValue;
+                    double minBilling = double.MaxValue;
+
                     for (int i = 0; i <= lastIndex; i++)
                     {
                         total += billingAmount[i];
+
+                        maxBilling = Math.Max(maxBilling, billingAmount[i]);
+
+                        minBilling = Math.Min(minBilling, billingAmount[i]);
                     }
 
-                    Console.WriteLine("Total system billing: " + total + " OMR");
+                    
+                    Console.WriteLine("Total system billing: " + Math.Round(total, 2) + " OMR");
+
+                    Console.WriteLine("Highest individual billing: " + Math.Round(maxBilling, 2) + " OMR");
+                    Console.WriteLine("Lowest individual billing: " + Math.Round(minBilling, 2) + " OMR");
+
                     break;
 
                 case 2:
@@ -543,7 +607,6 @@ namespace HealthCareSystem
                         
                         double originalBill = billingAmount[bilingFound];
 
-                        // 🟢 ADDED: random discount (5% to 20%)
                         Random rnd = new Random();
                         int discountPercent = rnd.Next(5, 21);
 
@@ -639,7 +702,10 @@ namespace HealthCareSystem
 
             for (int i = 0; i <= lastDoctorIndex; i++)
             {
-                double salary = 300 + (doctorVisitCount[i] * 15);
+                const double BASE_SALARY = 300;   
+                const double PAY_PER_VISIT = 15;  
+
+                double salary = BASE_SALARY + (doctorVisitCount[i] * PAY_PER_VISIT);
                 salary = Math.Round(salary, 2);
 
                 Console.WriteLine(
@@ -709,24 +775,26 @@ namespace HealthCareSystem
 
                     case 1: // Register New Patient
 
-                        lastIndex++;
-                        Console.Write("Patient Name: ");
-                        patientNames[lastIndex] = Console.ReadLine() ?? string.Empty.Trim();
+                        
 
+                        Console.Write("Patient Name: ");
+                        patientNames[lastIndex] = (Console.ReadLine() ?? "").Trim();
 
                         Console.Write("Diagnosis: ");
-                        diagnoses[lastIndex] = Console.ReadLine() ?? string.Empty.Trim();
+                        diagnoses[lastIndex] = (Console.ReadLine() ?? "").Trim(); 
 
                         Console.Write("Enter Blood Type: ");
-                        bloodType[lastIndex] = Console.ReadLine() ?? string.Empty.ToUpper();
+                        bloodType[lastIndex] = (Console.ReadLine() ?? "").ToUpper();
 
                         Console.Write("Department: ");
-                        departments[lastIndex] = Console.ReadLine() ?? string.Empty.Trim();
+                        departments[lastIndex] = (Console.ReadLine() ?? "").Trim(); 
 
-                        string PID = registerPatient(patientNames[lastIndex], diagnoses[lastIndex], bloodType[lastIndex], departments[lastIndex]);
+                       
+                        string PID = registerPatient(patientNames[lastIndex],diagnoses[lastIndex], bloodType[lastIndex],departments[lastIndex]);
 
                         Console.WriteLine("Patient registered successfully with ID :" + PID);
 
+                        lastIndex++; 
 
                         break;
 
