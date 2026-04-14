@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics.Metrics;
-using System.Numerics;
-using System.Xml.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿
 
 namespace HealthCareSystem
 {
@@ -113,7 +107,9 @@ namespace HealthCareSystem
             doctorAvailableSlots[lastDoctorIndex] = 8;
             doctorVisitCount[lastDoctorIndex] = 0;
 
-            
+            lastDoctorIndex++;
+
+
 
 
         }
@@ -153,18 +149,20 @@ namespace HealthCareSystem
         {
             int pateintFound = -1;
 
+            
+            string normalizedInput = searchInput.Trim().ToLower();
 
             for (int i = 0; i <= lastIndex; i++)
             {
-                if (patientNames[i] == searchInput || patientIDs[i] == searchInput)
+                
+                if (patientNames[i].ToLower().Trim() == normalizedInput ||
+                    patientIDs[i].ToLower().Trim() == normalizedInput)
                 {
                     pateintFound = i;
                     break;
-
-
                 }
-
             }
+
             return pateintFound;
         }
 
@@ -209,7 +207,7 @@ namespace HealthCareSystem
             else
             {
                 Console.Write("Doctor Name: ");
-                assignedDoctors[admitIndex] = Console.ReadLine();
+                assignedDoctors[admitIndex] = Console.ReadLine() ?? string.Empty;
 
                 DateTime admissionDate = DateTime.Now;
                 lastVisitDate[admitIndex] = admissionDate;
@@ -227,7 +225,7 @@ namespace HealthCareSystem
                 }
                 else
                 {
-                    Console.WriteLine("This is the first time");
+                    Console.WriteLine("This patient is being admitted for the first time");
                 }
             }
         }
@@ -244,15 +242,15 @@ namespace HealthCareSystem
             double visitCharges = 0;
 
             Console.Write("Was there a consultation fee? (yes/no): ");
-            string hasFee = Console.ReadLine().ToLower();
+            string hasFee = Console.ReadLine() ?? string.Empty.ToLower();
 
             if (hasFee == "yes")
             {
                 Console.Write("Enter consultation fee amount: ");
-                try
-                {
-                    double fee = double.Parse(Console.ReadLine());
+                double fee;
 
+                if (double.TryParse(Console.ReadLine() ?? string.Empty, out fee)) 
+                {
                     if (fee > 0)
                     {
                         fee = Math.Round(fee, 2);
@@ -264,26 +262,27 @@ namespace HealthCareSystem
                         Console.WriteLine("Fee must be positive");
                     }
                 }
-                catch
+                else
                 {
-                    Console.WriteLine("Invalid amount. Please enter a valid number.");
+                    Console.WriteLine("Invalid amount. Please enter a number.");
                 }
             }
 
             Console.Write("Any medication charges? (yes/no): ");
-            string hasMeds = Console.ReadLine().ToLower();
+            string hasMeds = Console.ReadLine() ?? string.Empty.ToLower();
 
             if (hasMeds == "yes")
             {
+                
                 Console.Write("Enter medication charges amount: ");
-                try
-                {
-                    double meds = double.Parse(Console.ReadLine());
+                double meds;
 
+                if (double.TryParse(Console.ReadLine() ?? string.Empty, out meds)) 
+                {
                     if (meds > 0)
                     {
                         meds = Math.Round(meds, 2);
-                        billingAmount[index] = Math.Round(billingAmount[index] + meds, 2);
+                        billingAmount[index] += meds;
                         visitCharges += meds;
                     }
                     else
@@ -291,31 +290,50 @@ namespace HealthCareSystem
                         Console.WriteLine("Charges must be positive");
                     }
                 }
-                catch
+                else
                 {
-                    Console.WriteLine("Invalid amount. Please enter a valid number.");
+                    Console.WriteLine("Invalid amount. Please enter a number.");
                 }
             }
 
-            if (visitCharges > 0)
+            Console.WriteLine("Total charges added this visit: " + visitCharges + " OMR");
+
+            
+            string doctorName = assignedDoctors[index];
+
+            
+            if (!string.IsNullOrEmpty(doctorName))
             {
-                Console.WriteLine("Total charges added this visit: " + visitCharges + " OMR");
+                for (int i = 0; i <= lastDoctorIndex; i++)
+                {
+                    if (doctorNames[i] == doctorName)
+                    {
+                        doctorAvailableSlots[i]++; 
+                        break;
+                    }
+                }
+            }
+
+            
+            assignedDoctors[index] = "";
+
+            admitted[index] = false;
+
+            Console.Write("Enter Discharge Date(yyyy-MM-dd): ");
+            lastDischargeDate[index] = DateTime.Parse(Console.ReadLine() ?? string.Empty);
+
+            Console.Write("Enter days spent in hospital: ");
+            int days;
+
+            if (int.TryParse(Console.ReadLine() ?? string.Empty, out days)) 
+            {
+                daysInHospital[index] += days; 
             }
             else
             {
-                Console.WriteLine("No charges recorded for this visit");
+                Console.WriteLine("Invalid number. Days not updated.");
             }
 
-            admitted[index] = false;
-            assignedDoctors[index] = "";
-
-            Console.Write("Enter Discharge Date: ");
-            lastDischargeDate[index] = DateTime.Parse(Console.ReadLine());
-
-            Console.Write("Enter days spent in hospital: ");
-            daysInHospital[index] = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Total days in hospital: " + daysInHospital[index]);
             Console.WriteLine("Patient discharged successfully!");
         }
 
@@ -323,7 +341,7 @@ namespace HealthCareSystem
         {
             Console.WriteLine("Currently Admitted Patients:");
             Console.Write("Filter by name keyword (press Enter to skip): ");
-            string nameFilter = Console.ReadLine().ToLower();
+            string nameFilter = Console.ReadLine() ?? string.Empty.ToLower();
 
             Console.WriteLine("----------------------------------------");
 
@@ -368,10 +386,17 @@ namespace HealthCareSystem
         static public void TransferPatient()
         {
             Console.Write("Enter current doctor name: ");
-            string currentDoctor = Console.ReadLine().Trim().Replace("Dr ", "Dr.");
+            string currentDoctor = Console.ReadLine() ?? string.Empty.Trim().Replace("Dr ", "Dr.");
 
             Console.Write("Enter new doctor name: ");
-            string newDoctor = Console.ReadLine().Trim().Replace("Dr ", "Dr.");
+            string newDoctor = Console.ReadLine() ?? string.Empty.Trim().Replace("Dr ", "Dr.");
+
+            
+            if (currentDoctor == newDoctor)
+            {
+                Console.WriteLine("Error: current doctor and new doctor cannot be the same.");
+                return;
+            }
 
             bool doctorFound = false;
 
@@ -380,23 +405,23 @@ namespace HealthCareSystem
                 if (assignedDoctors[i] == currentDoctor && admitted[i] == true)
                 {
                     doctorFound = true;
+
+                    
                     assignedDoctors[i] = newDoctor;
 
-                    if (currentDoctor != newDoctor)
-                    {
-                        Console.WriteLine("Patient '" + patientNames[i] + "' has been transferred from " + currentDoctor + " to " + newDoctor);
-                        Console.WriteLine("Patient last admitted on: " + lastVisitDate[i]);
-                    }
-                    else
-                    {
-                        Console.WriteLine("should current doctor name not same new doctor name");
-                    }
+                    Console.WriteLine(
+                        "Patient '" + patientNames[i] +
+                        "' has been transferred from " + currentDoctor +
+                        " to " + newDoctor
+                    );
+
+                    Console.WriteLine("Patient last admitted on: " + lastVisitDate[i]);
 
                     break;
                 }
             }
 
-            if (doctorFound == false)
+            if (!doctorFound)
             {
                 Console.WriteLine("No admitted patients found under this doctor");
             }
@@ -435,7 +460,7 @@ namespace HealthCareSystem
         static public void SearchByDepartment()
         {
             Console.Write("Enter department name: ");
-            string searchDept = Console.ReadLine();
+            string searchDept = Console.ReadLine() ?? string.Empty ?? string.Empty;
 
             bool deptFound = false;
 
@@ -482,9 +507,9 @@ namespace HealthCareSystem
             int billChoice = 0;
             try
             {
-                billChoice = int.Parse(Console.ReadLine());
+                billChoice = int.Parse(Console.ReadLine() ?? string.Empty ?? string.Empty);
             }
-            catch (Exception e)
+            catch
             {
                 Console.WriteLine("Invalid input. Please enter 1 or 2.");
             }
@@ -499,25 +524,41 @@ namespace HealthCareSystem
                         total += billingAmount[i];
                     }
 
-                    Console.WriteLine("Total system billing: " + total);
+                    Console.WriteLine("Total system billing: " + total + " OMR");
                     break;
 
                 case 2:
 
                     Console.Write("Enter patient ID or name: ");
-                    string billingInput = Console.ReadLine();
+                    string billingInput = Console.ReadLine() ?? string.Empty;
 
-                    int bilingFound = searchPatient(billingInput); // call the search function (returns true if found, false if not   
+                    int bilingFound = searchPatient(billingInput);
 
                     if (bilingFound == -1)
                     {
-                        Console.WriteLine(" No billing records found for this patient");
+                        Console.WriteLine("No billing records found for this patient");
                     }
                     else
                     {
-                        Console.WriteLine("Total billing amount: " + billingAmount[lastIndex]);
-                        Console.WriteLine("Last Visit Date: " + lastVisitDate[lastIndex]);
-                        Console.WriteLine("Total Days spent in hospital: " + daysInHospital[lastIndex]);
+                        
+                        double originalBill = billingAmount[bilingFound];
+
+                        // 🟢 ADDED: random discount (5% to 20%)
+                        Random rnd = new Random();
+                        int discountPercent = rnd.Next(5, 21);
+
+                        
+                        double discountAmount = (originalBill * discountPercent) / 100;
+                        double finalBill = originalBill - discountAmount;
+
+                        
+                        Console.WriteLine("Original Billing Amount: " + originalBill + " OMR");
+                        Console.WriteLine("Discount Applied: " + discountPercent + "%");
+                        Console.WriteLine("Discounted Total: " + Math.Round(finalBill, 2) + " OMR");
+
+                        
+                        Console.WriteLine("Last Visit Date: " + lastVisitDate[bilingFound]);
+                        Console.WriteLine("Total Days spent in hospital: " + daysInHospital[bilingFound]);
                     }
 
                     break;
@@ -528,12 +569,11 @@ namespace HealthCareSystem
             }
         }
 
-
         static public void AddDoctor()
         {
             
             Console.Write("Enter Doctor Full Name: ");
-            string doctorName = Console.ReadLine().Trim();
+            string doctorName = Console.ReadLine() ?? string.Empty.Trim();
 
             
             if (!string.IsNullOrEmpty(doctorName))
@@ -542,19 +582,30 @@ namespace HealthCareSystem
             }
 
             Console.Write("Enter number of available slots: ");
-            string slotInput = Console.ReadLine();
+            string slotInput = Console.ReadLine() ?? string.Empty;
 
             int slots;
-            if (!int.TryParse(slotInput, out slots) || slots < 1)
+
+            if (!int.TryParse(slotInput, out slots))
             {
-                Console.WriteLine("Invalid slot count. Doctor not registered.");
+                Console.WriteLine("Invalid input. Please enter a number.");
                 return;
+            }
+            else if (slots < 1)
+            {
+                Console.WriteLine("Slots must be greater than 0.");
+                return;
+            }
+            else
+            {
+                
+                Console.WriteLine("Slots accepted: " + slots);
             }
 
             // Check for duplicate doctor (case-insensitive)
             for (int i = 0; i <= lastDoctorIndex; i++)
             {
-                if (doctorNames[i].ToLower() == doctorName.ToLower())
+                if (!string.IsNullOrEmpty(doctorNames[i]) && doctorNames[i].Equals(doctorName, StringComparison.OrdinalIgnoreCase))
                 {
                     Console.WriteLine("Doctor already exists in the system.");
                     return;
@@ -615,7 +666,7 @@ namespace HealthCareSystem
             Console.WriteLine("----------------------------------------");
 
             Console.WriteLine("are you sure you want to exit?(yes/no)");
-            string wantExit = Console.ReadLine();
+            string wantExit = Console.ReadLine() ?? string.Empty;
 
             if (wantExit == "no")
             {
@@ -645,7 +696,7 @@ namespace HealthCareSystem
                 try
                 {
 
-                    choice = int.Parse(Console.ReadLine());
+                    choice = int.Parse(Console.ReadLine() ?? string.Empty);
                 }
                 catch (Exception ex)
                 {
@@ -660,17 +711,17 @@ namespace HealthCareSystem
 
                         lastIndex++;
                         Console.Write("Patient Name: ");
-                        patientNames[lastIndex] = Console.ReadLine().Trim();
+                        patientNames[lastIndex] = Console.ReadLine() ?? string.Empty.Trim();
 
 
                         Console.Write("Diagnosis: ");
-                        diagnoses[lastIndex] = Console.ReadLine().Trim();
+                        diagnoses[lastIndex] = Console.ReadLine() ?? string.Empty.Trim();
 
                         Console.Write("Enter Blood Type: ");
-                        bloodType[lastIndex] = Console.ReadLine().ToUpper();
+                        bloodType[lastIndex] = Console.ReadLine() ?? string.Empty.ToUpper();
 
                         Console.Write("Department: ");
-                        departments[lastIndex] = Console.ReadLine().Trim();
+                        departments[lastIndex] = Console.ReadLine() ?? string.Empty.Trim();
 
                         string PID = registerPatient(patientNames[lastIndex], diagnoses[lastIndex], bloodType[lastIndex], departments[lastIndex]);
 
@@ -681,7 +732,7 @@ namespace HealthCareSystem
 
                     case 2: // Admit Patient
                         Console.Write("Enter Patient ID or Name: ");
-                        string admitInput = Console.ReadLine();
+                        string admitInput = Console.ReadLine() ?? string.Empty;
 
                         int admitIndex = searchPatient(admitInput);
 
@@ -701,7 +752,7 @@ namespace HealthCareSystem
                     case 3: // Discharge Patient
 
                         Console.Write("Enter Patient ID or Name: ");
-                        string dischargeInput = Console.ReadLine();
+                        string dischargeInput = Console.ReadLine() ?? string.Empty;
 
                         int dischargeIndex = searchPatient(dischargeInput);
 
@@ -722,7 +773,7 @@ namespace HealthCareSystem
                     case 4: // Search Patient
 
                             Console.Write("Enter Patient ID or Name: ");
-                            string searchInput = Console.ReadLine();
+                            string searchInput = Console.ReadLine() ?? string.Empty;
 
                             int pateintFound = searchPatient(searchInput);
 
